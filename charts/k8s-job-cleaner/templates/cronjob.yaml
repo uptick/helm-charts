@@ -1,0 +1,61 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "k8s-job-cleaner.fullname" . }}
+spec:
+  # once an hour
+  schedule: {{ .Values.cron.schedule }}
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          serviceAccount: {{ include "k8s-job-cleaner.serviceAccountName" . }}
+          restartPolicy: Never
+          containers:
+          - name: kubectl
+            image: bitnami/kubectl
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            args:
+            - -c
+            # Delete jobs older than 10 hours
+            - "kubectl delete jobs $(kubectl get jobs -o json | jq -r '.items[].metadata | select(.creationTimestamp | fromdate | (now - .)/3600 > {{ .Values.cron.ttlHours }}) | .name') || true"
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "k8s-job-cleaner.serviceAccountName" . }}
+  labels:
+    {{- include "k8s-job-cleaner.labels" . | nindent 4 }}
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "k8s-job-cleaner.fullname" . }}
+rules:
+- apiGroups: ["", "batch"] # "" indicates the core API group
+  resources: ["pods", "jobs"]
+  verbs: ["get", "list", "delete"]
+
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "k8s-job-cleaner.fullname" . }}
+subjects:
+- kind: ServiceAccount
+  name:  {{ include "k8s-job-cleaner.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  # "roleRef" specifies the binding to a Role / ClusterRole
+  kind: Role #this must be Role or ClusterRole
+  name: {{ include "k8s-job-cleaner.fullname" . }}-role
+  apiGroup: rbac.authorization.k8s.io
