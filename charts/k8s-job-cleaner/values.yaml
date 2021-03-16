@@ -1,0 +1,22 @@
+# Default values for k8s-job-cleaner.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+cron:
+  # once an hour
+  schedule: "0 * * * *"
+
+  # How many hours can a job stay alive before it is deleted
+  ttlHours: 10
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
