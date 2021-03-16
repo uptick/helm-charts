@@ -24,9 +24,9 @@ jobs:
         with:
           version: v3.4.1
 
-      # - name: Add dependency chart repos
-      #   run: |
-      #     helm repo add bitnami https://charts.bitnami.com/bitnami
+      # Yes lets run lint before we release chart
+      - name: Run chart-testing (lint)
+        run: helm lint charts/*
 
       # https://github.com/helm/chart-releaser-action
       - name: Run chart-releaser
