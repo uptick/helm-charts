@@ -1,6 +1,12 @@
 name: Lint and Test Charts
 
-on: push
+on:
+  push:
+    branches:
+      - "**"
+      - "*"
+      - "!master"
+      - "!gh-pages"
 
 jobs:
   lint-test:

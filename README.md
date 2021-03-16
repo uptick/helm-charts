@@ -1,41 +1,26 @@
-# Charts Repo Actions Demo
+[![Release Charts](https://github.com/uptick/helm-charts/actions/workflows/release.yaml/badge.svg)](https://github.com/uptick/helm-charts/actions/workflows/release.yaml)
+# Uptick Helm Charts
+This repo contains the public helm charts of the company. Create a chart in the charts folder so they are publicly available as a helm chart to be installed via helm, gitops or terraform.
+## How Do I
+### Install git precommit hooks
+This hook will prevent commits that fail helm lint.
 
-[![](https://github.com/helm/charts-repo-actions-demo/workflows/Release%20Charts/badge.svg?branch=master)](https://github.com/helm/charts-repo-actions-demo/actions)
+`make git/install-pre-commit-hook`
 
-Example project to demo testing and hosting a chart repository with GitHub Pages and Actions.
+### Create a chart
+`cd charts; helm create *chart_name*`
 
-## Actions
+### Bump a chart version
+1. Modify the `version: ` value in `Charts.yaml`.
+1. Commit the change and merge to master.
+1. The github actions will make a new tag and release for any charts with a detected change.
+The changes will appear in the `gh-pages` branch. Any chart will also have a archive created for it and added as an artificat to a github release.
 
-* [@helm/kind-action](https://github.com/helm/kind-action)
-* [@helm/chart-testing-action](https://github.com/helm/chart-testing-action)
-* [@helm/chart-releaser-action](https://github.com/helm/chart-releaser-action)
+### Install the helm chart
+The helm repository is located at https://uptick.github.io/helm-charts/ .
 
-## Project Status
+To add the repo: `helm repo add uptick https://uptick.github.io/helm-charts/`
 
-`master` supports Helm 3 only, i. e. both `v1` and `v2` [API version](https://helm.sh/docs/topics/charts/#the-apiversion-field) charts are installable.
+To search the repo `helm search repo uptick --devel` (devel is neccessary for any pre v1 chart)
 
-## Chart Sources
-
-* `charts/example-v1`: Sample chart with API version v1
-* `charts/example-v2`: Sample chart with API version v2
-* `charts/dependencies-v1`: Simple chart with API version v1 to test dependencies from an external Charts repo
-* `charts/dependencies-v2`: Simple chart with API version v2 to test dependencies from an external Charts repo
-
-## How-To
-
-You can automatically test and host your own chart repository with GitHub Pages and Actions by following these steps.
-
-### Steps
-
-The prerequisites listed in the READMEs for [actions](#actions) above _must_ be complete before the steps below, or your charts' initial versions won't be released.
-
-1. Use the `master` branch for all of the below, if you wish to use the Actions workflow files as-is
-1. Copy the `.github/workflows` files from this project to yours
-1. Add your charts to a parent directory in the project (`/charts` is most straightforward, as it's the default. To change this see [helm/chart-testing > configuration > chart-dirs](https://github.com/helm/chart-testing#configuration))
-1. Optional: To list your charts repo publicly on the [Helm Hub](https://hub.helm.sh), see [Helm Hub > How To Add Your Helm Charts](https://github.com/helm/hub#how-to-add-your-helm-charts). Consider also pushing to [CNCF Artifact Hub](https://artifacthub.io/)
-
-### Results
-
-* The [Lint and Test Charts](/.github/workflows/lint-test.yaml) workflow uses [@helm/kind-action](https://www.github.com/helm/kind-action) GitHub Action to spin up a [kind](https://kind.sigs.k8s.io/) Kubernetes cluster, and [@helm/chart-testing-action](https://www.github.com/helm/chart-testing-action) to lint and test your charts on every Pull Request and push
-* The [Release Charts](/.github/workflows/release.yaml) workflow uses [@helm/chart-releaser-action](https://www.github.com/helm/chart-releaser-action) to turn your GitHub project into a self-hosted Helm chart repo. It does this – during every push to `master` – by checking each chart in your project, and whenever there's a new chart version, creates a corresponding [GitHub release](https://help.github.com/en/github/administering-a-repository/about-releases) named for the chart version, adds Helm chart artifacts to the release, and creates or updates an `index.yaml` file with metadata about those releases, which is then hosted on GitHub Pages
-* You should now be able to add your charts repo with `helm repo add <owner> https://<owner>.github.io/<project>`
+To see available charts visit https://uptick.github.io/helm-charts/index.yaml
