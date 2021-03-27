@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    {{- include "workforce-monitoring.labels" . | nindent 4 }}
+  name: {{ include "workforce-monitoring.fullname" . }}
+spec:
+  endpoints:
+  - interval: 60s
+    port: http
+  namespaceSelector:
+    matchNames:
+    - {{ .Values.fgServiceMonitor.namespace }}
+  selector:
+    matchLabels:
+      {{- range $key, $val := .Values.fgServiceMonitor.matchLabels}}
+      {{ $key }}: {{ $val | quote }}
+      {{- end }}

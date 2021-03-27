@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ include "workforce-monitoring.fullname" . }}-dashboards
+  namespace: monitor
+  labels:
+    grafana_dashboard: "1"
+data:
+  {{- $files := .Files }}
+  {{- range tuple "django.json" "cluster.json" }}
+  {{ . }}: {{ $files.Get . |  b64enc}}
+  {{- end }}

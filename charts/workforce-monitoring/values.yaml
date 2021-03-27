@@ -1,0 +1,13 @@
+# Default values for workforce-monitoring.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: ""
+fullnameOverride: ""
+
+# Labels to match to monitor against
+# eg:  app.kubernetes.io/name: workforce-fg
+fgServiceMonitor:
+  matchLabels:
+    app.kubernetes.io/name: workforce-fg
+  namespace: workforce
