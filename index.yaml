@@ -35,6 +35,16 @@ entries:
   k8s-job-cleaner:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2021-04-08T10:29:52.01120098Z"
+    description: Cleans up k8s jobs that have erorred out
+    digest: fc96ff273f3349e007391ceb91c6e2f69c38dc3ef8cec836ad59e7358290adfd
+    name: k8s-job-cleaner
+    type: application
+    urls:
+    - https://github.com/uptick/helm-charts/releases/download/k8s-job-cleaner-0.1.1/k8s-job-cleaner-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2021-03-16T02:29:49.976208737Z"
     description: Cleans up k8s jobs that have erorred out
     digest: 29e78a299bcb7bce60a6d8e00d94b63c2fc2e92b5b7ac25b20e64f8d8e54aece
@@ -65,4 +75,4 @@ entries:
     urls:
     - https://github.com/uptick/helm-charts/releases/download/workforce-monitoring-0.1.0/workforce-monitoring-0.1.0.tgz
     version: 0.1.0
-generated: "2021-03-27T08:39:58.187410436Z"
+generated: "2021-04-08T10:29:52.011221381Z"
