@@ -4,7 +4,7 @@ metadata:
   name: {{ include "k8s-job-cleaner.fullname" . }}
 spec:
   # once an hour
-  schedule: {{ .Values.cron.schedule }}
+  schedule: {{ .Values.cron.schedule | quote}}
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 1
   jobTemplate:
