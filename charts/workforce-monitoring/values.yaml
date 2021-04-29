@@ -7,7 +7,14 @@ fullnameOverride: ""
 
 # Labels to match to monitor against
 # eg:  app.kubernetes.io/name: workforce-fg
-fgServiceMonitor:
+fgMonitor:
   matchLabels:
     app.kubernetes.io/name: workforce-fg
+  namespace: workforce
+
+bgMonitor:
+  port: 9191
+  path: "/"
+  matchLabels:
+    app.kubernetes.io/name: workforce-bg
   namespace: workforce

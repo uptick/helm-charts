@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  labels:
+    {{- include "workforce-monitoring.labels" . | nindent 4 }}
+  name: {{ include "workforce-monitoring.fullname" . }}-bg
+spec:
+  namespaceSelector:
+    matchNames:
+    - {{ .Values.bgMonitor.namespace }}
+  selector:
+    matchLabels:
+      {{- range $key, $val := .Values.bgMonitor.matchLabels}}
+      {{ $key }}: {{ $val | quote }}
+      {{- end }}
+  # Transfer app label to this job
+  podTargetLabels: ["app"]
+  podMetricsEndpoints:
+  - interval: 60s
+    targetPort: {{ .Values.bgMonitor.port }}
+    path: {{ .Values.bgMonitor.path }}

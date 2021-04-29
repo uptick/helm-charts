@@ -31,7 +31,7 @@
           "links": [
             {
               "title": "App Panel",
-              "url": "https://grafana.prod.onuptick.com/d/django/django?orgId=1&refresh=1m&var-service=${__data.fields.service}"
+              "url": "https://grafana.onuptick.com/d/multicluster-django/django?orgId=1&refresh=1m&var-service=${__data.fields.service}"
             }
           ],
           "mappings": [],
@@ -126,6 +126,18 @@
                 "value": 112
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "cluster"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 45
+              }
+            ]
           }
         ]
       },
@@ -142,14 +154,15 @@
         "sortBy": [
           {
             "desc": true,
-            "displayName": "CPU"
+            "displayName": "95 Percentile Latency"
           }
         ]
       },
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.5.3",
       "targets": [
         {
-          "expr": "topk(10,histogram_quantile(0.95, sum(rate(django_http_requests_latency_including_middlewares_seconds_bucket{}[5m])) by (le, pod, service))) > 1",
+          "exemplar": true,
+          "expr": "topk(10,histogram_quantile(0.95, sum(rate(django_http_requests_latency_including_middlewares_seconds_bucket{}[5m])) by (le, pod, service, cluster))) > 1",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -171,7 +184,18 @@
       "transformations": [
         {
           "id": "filterFieldsByName",
-          "options": {}
+          "options": {
+            "include": {
+              "names": [
+                "cluster",
+                "pod",
+                "service",
+                "Value #A",
+                "node",
+                "Value #B"
+              ]
+            }
+          }
         },
         {
           "id": "seriesToColumns",
@@ -186,12 +210,12 @@
               "Time": true
             },
             "indexByName": {
-              "Time": 1,
               "Value #A": 4,
               "Value #B": 5,
-              "node": 3,
+              "cluster": 3,
+              "node": 2,
               "pod": 0,
-              "service": 2
+              "service": 1
             },
             "renameByName": {}
           }
@@ -211,7 +235,7 @@
           "links": [
             {
               "title": "Django dashboard",
-              "url": "https://grafana.prod.onuptick.com/d/django/django?orgId=1&refresh=1m&var-service=${__data.fields.app}-fg-service"
+              "url": "https://grafana.onuptick.com/d/multicluster-django/django?orgId=1&refresh=1m&var-service=${__data.fields.app}-fg-service"
             }
           ],
           "mappings": [],
@@ -241,7 +265,7 @@
       "options": {
         "showHeader": true
       },
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.5.3",
       "targets": [
         {
           "expr": "probe_success{app_kubernetes_io_name=\"workforce\"}==0",
@@ -285,11 +309,9 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": null,
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 10,
@@ -319,7 +341,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.5.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -329,8 +351,10 @@
       "steppedLine": false,
       "targets": [
         {
+          "exemplar": true,
           "expr": "instance:node_load1_per_cpu:ratio{job=\"node-exporter\"}\n/ scalar(count(instance:node_load1_per_cpu:ratio{job=\"node-exporter\"}))\n",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "{{instance}}",
           "legendLink": "/dashboard/file/node-rsrc-use.json",
@@ -378,22 +402,210 @@
         "align": false,
         "alignLevel": null
       }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 15
+      },
+      "hiddenSeries": false,
+      "id": 10,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "(1 - sum(:node_memory_MemAvailable_bytes:sum) by (cluster) / sum(kube_node_status_allocatable_memory_bytes) by (cluster))",
+          "interval": "",
+          "legendFormat": "{{cluster}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Cluster utilization Memory",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 23
+      },
+      "hiddenSeries": false,
+      "id": 12,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "count(node_memory_MemAvailable_bytes) by (cluster)",
+          "interval": "",
+          "legendFormat": "{{cluster}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Number of nodes",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     }
   ],
   "refresh": false,
-  "schemaVersion": 26,
+  "schemaVersion": 27,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "ClusterHealth",
-  "uid": "clusterhealth",
-  "version": 30
+  "title": "ClusterHealth Multicluster",
+  "uid": "multicluster-clusterhealth",
+  "version": 11
 }

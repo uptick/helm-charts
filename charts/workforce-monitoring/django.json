@@ -15,8 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 23,
-  "iteration": 1605584254362,
+  "id": 24,
+  "iteration": 1619666684094,
   "links": [
     {
       "icon": "external link",
@@ -45,9 +45,7 @@
       "datasource": null,
       "description": "This is essentially pingdom",
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
@@ -76,7 +74,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.5.3",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -140,9 +138,7 @@
       "dashes": false,
       "datasource": null,
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
@@ -171,7 +167,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.5.3",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -235,15 +231,13 @@
       "dashes": false,
       "datasource": null,
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 8,
+        "h": 9,
         "w": 12,
         "x": 0,
         "y": 8
@@ -266,7 +260,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.5.3",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -324,12 +318,117 @@
       }
     },
     {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 4,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.995, sum(rate(django_http_requests_latency_including_middlewares_seconds_bucket{service=\"$app-fg-service\"}[5m])) by (le))",
+          "interval": "",
+          "legendFormat": "99 percentile",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(django_http_requests_latency_including_middlewares_seconds_bucket{service=\"$app-fg-service\"}[5m])) by (le))",
+          "interval": "",
+          "legendFormat": "95 percentile",
+          "refId": "B"
+        },
+        {
+          "expr": "histogram_quantile(0.5, sum(rate(django_http_requests_latency_including_middlewares_seconds_bucket{service=\"$app-fg-service\"}[5m])) by (le))",
+          "interval": "",
+          "legendFormat": "median",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Latency",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
       "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 16
+        "y": 17
       },
       "id": 16,
       "title": "Row title",
@@ -346,9 +445,7 @@
       "datasource": null,
       "description": "",
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
@@ -357,7 +454,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 17
+        "y": 18
       },
       "hiddenSeries": false,
       "id": 2,
@@ -377,7 +474,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.5.3",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -452,15 +549,16 @@
       }
     },
     {
-      "aliasColors": {},
+      "aliasColors": {
+        "failed": "dark-red",
+        "running": "green"
+      },
       "bars": false,
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
@@ -469,10 +567,10 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 17
+        "y": 18
       },
       "hiddenSeries": false,
-      "id": 4,
+      "id": 28,
       "legend": {
         "avg": false,
         "current": false,
@@ -489,7 +587,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.5.3",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -499,29 +597,17 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "histogram_quantile(0.995, sum(rate(django_http_requests_latency_including_middlewares_seconds_bucket{service=\"$app-fg-service\"}[5m])) by (le))",
+          "expr": "avg by (status) (django_bg_tasks{job=\"aesg-fg-service\"})",
           "interval": "",
-          "legendFormat": "99 percentile",
+          "legendFormat": "{{status}}",
           "refId": "A"
-        },
-        {
-          "expr": "histogram_quantile(0.95, sum(rate(django_http_requests_latency_including_middlewares_seconds_bucket{service=\"$app-fg-service\"}[5m])) by (le))",
-          "interval": "",
-          "legendFormat": "95 percentile",
-          "refId": "B"
-        },
-        {
-          "expr": "histogram_quantile(0.5, sum(rate(django_http_requests_latency_including_middlewares_seconds_bucket{service=\"$app-fg-service\"}[5m])) by (le))",
-          "interval": "",
-          "legendFormat": "median",
-          "refId": "C"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Latency",
+      "title": "BG Queue",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -565,9 +651,7 @@
       "dashes": false,
       "datasource": null,
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 3,
@@ -576,7 +660,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 26
+        "y": 27
       },
       "hiddenSeries": false,
       "id": 8,
@@ -596,7 +680,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.5.3",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -660,9 +744,7 @@
       "dashes": false,
       "datasource": null,
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
@@ -671,102 +753,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 26
-      },
-      "hiddenSeries": false,
-      "id": 10,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.2.0",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "sum(\n    container_memory_working_set_bytes{namespace=\"workforce\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{namespace=\"workforce\", workload=\"$app-fg-deployment\"}\n) by (pod)\n",
-          "interval": "",
-          "legendFormat": "{{pod}}",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Memory Usage Foreground",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "bytes",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 34
+        "y": 27
       },
       "hiddenSeries": false,
       "id": 26,
@@ -786,7 +773,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.5.3",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -844,32 +831,13 @@
       }
     },
     {
-      "aliasColors": {
-        "failed": "dark-red",
-        "running": "green"
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
       "fieldConfig": {
-        "defaults": {
-          "custom": {},
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
@@ -877,11 +845,11 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 12,
-        "y": 34
+        "x": 0,
+        "y": 35
       },
       "hiddenSeries": false,
-      "id": 28,
+      "id": 10,
       "legend": {
         "avg": false,
         "current": false,
@@ -898,7 +866,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.5.3",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -908,9 +876,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "avg by (status) (django_bg_tasks{job=\"aesg-fg-service\"})",
+          "expr": "sum(\n    container_memory_working_set_bytes{namespace=\"workforce\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{namespace=\"workforce\", workload=\"$app-fg-deployment\"}\n) by (pod)\n",
           "interval": "",
-          "legendFormat": "{{status}}",
+          "legendFormat": "{{pod}}",
           "refId": "A"
         }
       ],
@@ -918,7 +886,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "BG Queue",
+      "title": "Memory Usage Foreground",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -934,7 +902,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "bytes",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -959,63 +927,6 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
-          "custom": {},
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 4,
-        "x": 0,
-        "y": 42
-      },
-      "id": 14,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "7.2.0",
-      "targets": [
-        {
-          "expr": "sum(rate(nginx_ingress_controller_requests{ingress=\"$app-ingress\", status!~\"[4-5].*\"}[2m])) / sum(rate(nginx_ingress_controller_requests{ingress=\"$app-ingress\"}[2m]))",
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Success Rate",
-      "type": "stat"
-    },
-    {
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {
           "custom": {
             "align": null,
             "filterable": false
@@ -1035,49 +946,104 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "view"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 805
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "P50"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 365
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "P99"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 227
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 7,
-        "w": 19,
-        "x": 4,
-        "y": 42
+        "h": 20,
+        "w": 24,
+        "x": 0,
+        "y": 43
       },
       "id": 22,
+      "interval": null,
+      "maxDataPoints": null,
       "options": {
         "showHeader": true,
         "sortBy": [
           {
             "desc": true,
-            "displayName": "P50"
+            "displayName": "P95"
           }
         ]
       },
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.5.3",
       "targets": [
         {
-          "expr": "topk(10, histogram_quantile(0.95, sum(rate(django_http_requests_latency_seconds_by_view_method_bucket{service=\"$service\"}[5m])) by (le, view)))",
+          "exemplar": true,
+          "expr": "topk(20, histogram_quantile(0.95, sum(rate(django_http_requests_latency_seconds_by_view_method_bucket{service=\"$service\"}[$__range])) by (le, view)))",
           "format": "table",
+          "hide": false,
           "instant": true,
           "interval": "",
           "legendFormat": "",
           "refId": "A"
         },
         {
-          "expr": "topk(10, histogram_quantile(0.99, sum(rate(django_http_requests_latency_seconds_by_view_method_bucket{service=\"$service\"}[5m])) by (le, view)))",
+          "exemplar": true,
+          "expr": "topk(20, histogram_quantile(0.99, sum(rate(django_http_requests_latency_seconds_by_view_method_bucket{service=\"$service\"}[$__range])) by (le, view)))",
           "format": "table",
+          "hide": false,
           "instant": true,
           "interval": "",
           "legendFormat": "",
           "refId": "B"
         },
         {
-          "expr": "topk(10, histogram_quantile(0.5, sum(rate(django_http_requests_latency_seconds_by_view_method_bucket{service=\"$service\"}[5m])) by (le, view)))",
+          "exemplar": true,
+          "expr": "topk(20, histogram_quantile(0.5, sum(rate(django_http_requests_latency_seconds_by_view_method_bucket{service=\"$service\"}[$__range])) by (le, view)))",
           "format": "table",
+          "hide": false,
           "instant": true,
           "interval": "",
           "legendFormat": "",
           "refId": "C"
+        },
+        {
+          "exemplar": true,
+          "expr": "(sum(increase(django_http_requests_total_by_view_transport_method_total{service=\"$service\"}[$__range]))  by (view)) * topk(20, histogram_quantile(0.95, sum(rate(django_http_requests_latency_seconds_by_view_method_bucket{service=\"$service\"}[$__range])) by (le, view)))",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "D"
         }
       ],
       "timeFrom": null,
@@ -1104,7 +1070,8 @@
             "renameByName": {
               "Value #A": "P95",
               "Value #B": "P99",
-              "Value #C": "P50"
+              "Value #C": "P50",
+              "Value #D": "View Count"
             }
           }
         }
@@ -1112,8 +1079,8 @@
       "type": "table"
     }
   ],
-  "refresh": "1m",
-  "schemaVersion": 26,
+  "refresh": false,
+  "schemaVersion": 27,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -1122,18 +1089,23 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "arafire-fg-service",
-          "value": "arafire-fg-service"
+          "text": "develop-fg-service",
+          "value": "develop-fg-service"
         },
-        "datasource": "Prometheus",
+        "datasource": null,
         "definition": "label_values(django_http_requests_body_total_bytes_count, service)",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "service",
         "multi": false,
         "name": "service",
         "options": [],
-        "query": "label_values(django_http_requests_body_total_bytes_count, service)",
+        "query": {
+          "query": "label_values(django_http_requests_body_total_bytes_count, service)",
+          "refId": "Prometheus-service-Variable-Query"
+        },
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -1148,18 +1120,23 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "arafire",
-          "value": "arafire"
+          "text": "develop",
+          "value": "develop"
         },
-        "datasource": "Prometheus",
+        "datasource": null,
         "definition": "label_values(django_http_requests_body_total_bytes_count{service=\"$service\"}, service)",
+        "description": null,
+        "error": null,
         "hide": 2,
         "includeAll": false,
         "label": "app",
         "multi": false,
         "name": "app",
         "options": [],
-        "query": "label_values(django_http_requests_body_total_bytes_count{service=\"$service\"}, service)",
+        "query": {
+          "query": "label_values(django_http_requests_body_total_bytes_count{service=\"$service\"}, service)",
+          "refId": "Prometheus-app-Variable-Query"
+        },
         "refresh": 1,
         "regex": "/(.*)-fg-service/",
         "skipUrlSync": false,
@@ -1178,7 +1155,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Django",
-  "uid": "django",
-  "version": 8
+  "title": "Multicluster Django",
+  "uid": "multicluster-django",
+  "version": 14
 }
+

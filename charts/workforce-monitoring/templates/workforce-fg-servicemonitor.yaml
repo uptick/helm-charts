@@ -3,16 +3,18 @@ kind: ServiceMonitor
 metadata:
   labels:
     {{- include "workforce-monitoring.labels" . | nindent 4 }}
-  name: {{ include "workforce-monitoring.fullname" . }}
+  name: {{ include "workforce-monitoring.fullname" . }}-fg
 spec:
   endpoints:
   - interval: 60s
     port: http
   namespaceSelector:
     matchNames:
-    - {{ .Values.fgServiceMonitor.namespace }}
+    - {{ .Values.fgMonitor.namespace }}
+  # Transfer app label to this job
+  podTargetLabels: ["app"]
   selector:
     matchLabels:
-      {{- range $key, $val := .Values.fgServiceMonitor.matchLabels}}
+      {{- range $key, $val := .Values.fgMonitor.matchLabels}}
       {{ $key }}: {{ $val | quote }}
       {{- end }}
