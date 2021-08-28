@@ -77,6 +77,16 @@ entries:
   workforce-monitoring:
   - apiVersion: v2
     appVersion: 1.17.0
+    created: "2021-08-28T02:40:36.829158782Z"
+    description: ServiceMonitors and Dashboards for monitoring workforce
+    digest: 7d88b377e8409577939488fdf05993793154bd93933500dc1e852d3a75c84bab
+    name: workforce-monitoring
+    type: application
+    urls:
+    - https://github.com/uptick/helm-charts/releases/download/workforce-monitoring-0.4.0/workforce-monitoring-0.4.0.tgz
+    version: 0.4.0
+  - apiVersion: v2
+    appVersion: 1.17.0
     created: "2021-04-29T04:23:32.987232961Z"
     description: ServiceMonitors and Dashboards for monitoring workforce
     digest: fc4a9f5deb6a644c961dc3d05dcacc03fe02958f1443f6b4dbed7baffe531232
@@ -105,4 +115,4 @@ entries:
     urls:
     - https://github.com/uptick/helm-charts/releases/download/workforce-monitoring-0.1.0/workforce-monitoring-0.1.0.tgz
     version: 0.1.0
-generated: "2021-04-29T04:23:32.987502076Z"
+generated: "2021-08-28T02:40:36.829190985Z"
