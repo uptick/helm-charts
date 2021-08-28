@@ -1,0 +1,13 @@
+## 28-08-2021 disabling these dashboards. Looking for a new way to sync dashboards that is better.
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: {{ include "workforce-monitoring.fullname" . }}-dashboards
+#   namespace: monitor
+#   labels:
+#     grafana_dashboard: "1"
+# data:
+#   {{- $files := .Files }}
+#   {{- range tuple "django.json" "cluster.json" }}
+#   {{ . }}: {{ $files.Get . |  toJson}}
+#   {{- end }}
