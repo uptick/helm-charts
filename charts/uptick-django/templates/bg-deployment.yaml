@@ -1,3 +1,5 @@
+
+{{- if .Values.containers.bg.command -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,22 +22,35 @@ spec:
       labels:
         {{- include "uptick-django.selectorLabelsBg" . | nindent 8 }}
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       serviceAccountName: {{ include "uptick-django.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.containers.bg.initCommand }}
+      initContainers:
+        - name: {{ .Release.Name }}-init
+          image: "{{ .Values.image }}"
+          command: {{ .Values.containers.bg.initCommand }}
+          envFrom:
+          - configMapRef:
+              name: {{ include "uptick-django.fullname" . }}-environment
+          - secretRef:
+              name: {{ include "uptick-django.fullname" . }}-secrets
+      {{- end }}
       containers:
         # We use ReleaseName as papertrail logs are grouped around container names
         - name: {{ .Release.Name }}-bg
+          command: {{ .Values.containers.bg.command}}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.containers.bg.resources | nindent 12 }}
+          envFrom:
+          - configMapRef:
+              name: {{ include "uptick-django.fullname" . }}-environment
+          - secretRef:
+              name: {{ include "uptick-django.fullname" . }}-secrets
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -48,3 +63,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+{{- end -}}

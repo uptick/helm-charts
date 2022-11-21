@@ -20,19 +20,28 @@ spec:
       labels:
         {{- include "uptick-django.selectorLabelsFg" . | nindent 8 }}
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       serviceAccountName: {{ include "uptick-django.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.containers.fg.initCommand }}
+      initContainers:
+        - name: {{ .Release.Name }}-init
+          image: "{{ .Values.image }}"
+          command: {{ .Values.containers.fg.initCommand }}
+          envFrom:
+          - configMapRef:
+              name: {{ include "uptick-django.fullname" . }}-environment
+          - secretRef:
+              name: {{ include "uptick-django.fullname" . }}-secrets
+      {{- end }}
       containers:
       # We use ReleaseName as papertrail logs are grouped around container names
         - name: {{ .Release.Name }}-fg
+          command: {{ .Values.containers.fg.command }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          # image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
@@ -40,14 +49,19 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /healthz
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /healthz
               port: http
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.containers.fg.resources | nindent 12 }}
+          envFrom:
+          - configMapRef:
+              name: {{ include "uptick-django.fullname" . }}-environment
+          - secretRef:
+              name: {{ include "uptick-django.fullname" . }}-secrets
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

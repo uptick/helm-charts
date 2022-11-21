@@ -36,9 +36,9 @@ spec:
         envFrom:
         # Using the migration variant of the configmap
         - configMapRef:
-            name: {{ .Release.Name }}-environment-migration
+            name: {{ include "uptick-django.fullname" . }}-environment-migration
         - secretRef:
-            name: {{ .Release.Name }}-secrets-migration
+            name: {{ include "uptick-django.fullname" . }}-secrets-migration
         resources:
           limits:
             memory: "1024Mi"
