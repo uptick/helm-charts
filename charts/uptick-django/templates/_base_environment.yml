@@ -2,7 +2,6 @@
 # We do this so that our pre-upgrade scripts are properly configured before they are run.
 {{ define "_base_environment.data" }}
   ASGI_THREADS: "3"
-  DOCRAPTOR_TIMEOUT: "30"
   PYTHONUNBUFFERED: "true"
   {{- if has "sandbox" .Values.tags }}
   UPTICK_SANDBOX: "1"

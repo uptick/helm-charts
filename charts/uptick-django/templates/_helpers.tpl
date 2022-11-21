@@ -50,6 +50,16 @@ app.kubernetes.io/name: {{ include "uptick-django.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
+{{- define "uptick-django.selectorLabelsFg" -}}
+app.kubernetes.io/name: {{ include "uptick-django.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}-fg
+{{- end }}
+
+{{- define "uptick-django.selectorLabelsBg" -}}
+app.kubernetes.io/name: {{ include "uptick-django.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}-bg
+{{- end }}
+
 {{/*
 Create the name of the service account to use
 */}}

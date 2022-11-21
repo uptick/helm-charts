@@ -7,7 +7,7 @@ kind: Job
 metadata:
   name: {{ include "uptick-django.fullname" . }}-upgrade-migration-{{ .Release.Revision }}
   labels:
-    app: {{ include "uptick-django.fullname" . }}
+    {{- include "uptick-django.labels" . | nindent 4 }}
   annotations:
     # This is what defines this resource as a hook. Without this line, the
     # job is considered part of the release.
@@ -19,12 +19,13 @@ spec:
   ttlSecondsAfterFinished: 120
   template:
     metadata:
-      name: {{ .Release.Name }}-upgrade-migration-{{ .Release.Revision }}
+      name: {{ include "uptick-django.fullname" . }}-upgrade-migration-{{ .Release.Revision }}
       labels:
-        app: {{ .Release.Name }}
+      {{- include "uptick-django.labels" . | nindent 8 }}
     spec:
       restartPolicy: Never
       containers:
+      # We use ReleaseName as papertrail logs are grouped around container names
       - name: {{ .Release.Name }}-migration
         image: {{ .Values.image }}
         command:
