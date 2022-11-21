@@ -1,0 +1,46 @@
+# This is run before every helm upgrade deploy.
+# Configmaps and secrets need to be installed as well to ensure that they are in sync with the upgrade job
+{{- if not (or (has "suspended" .Values.tags) (has "downtime" .Values.tags)) }}
+{{ if not .Values.skip_migrations }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "uptick-django.fullname" . }}-upgrade-migration-{{ .Release.Revision }}
+  labels:
+    app: {{ include "uptick-django.fullname" . }}
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": pre-upgrade,pre-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded,hook-failed
+spec:
+  backoffLimit: 1
+  ttlSecondsAfterFinished: 120
+  template:
+    metadata:
+      name: {{ .Release.Name }}-upgrade-migration-{{ .Release.Revision }}
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: {{ .Release.Name }}-migration
+        image: {{ .Values.image }}
+        command:
+        -  env
+        -  DJANGO_ALLOW_ASYNC_UNSAFE=true
+        -  ./manage.py
+        -  migrate
+        envFrom:
+        # Using the migration variant of the configmap
+        - configMapRef:
+            name: {{ .Release.Name }}-environment-migration
+        - secretRef:
+            name: {{ .Release.Name }}-secrets-migration
+        resources:
+          limits:
+            memory: "1024Mi"
+
+{{ end }}
+{{- end -}}
