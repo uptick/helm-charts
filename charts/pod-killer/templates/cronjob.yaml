@@ -1,0 +1,73 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "pod-killer.fullname" . }}
+spec:
+  # once an hour
+  schedule: {{ .Values.cron.schedule | quote}}
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          serviceAccount: {{ include "pod-killer.serviceAccountName" . }}
+          restartPolicy: Never
+          containers:
+          - name: kubectl
+            image: bitnami/kubectl
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            args:
+            - -c
+            # Delete jobs older than 10 hours
+            # - "kubectl delete jobs $(kubectl get jobs -o json | jq -r '.items[].metadata | select(.creationTimestamp | fromdate | (now - .)/3600 > {{ .Values.cron.ttlHours }}) | .name') || true"
+            - |
+              PODS_TO_KILL=$(kubectl get pods --namespace workforce --selector 'app.kubernetes.io/name=workforce-fg' -o json \
+              | jq -r '.items[] | select((.metadata.creationTimestamp | fromdate) < (now - (4*60*60)))| select(.spec.priority >= 2000) |  {(.metadata.labels.app): (.metadata.name)} | flatten | .[0]' \
+              | shuf -n 5)
+              kubectl get pods $PODS_TO_KILL || true
+
+# We are getting all foreground workforce pods
+# That are over 4 hours alive
+# That are priority over 2000 (customer pods with more than 1 pod). We don't want to kill sandbox pods since they will go down
+# only 1 per set of deployment
+# and randomise
+
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "pod-killer.serviceAccountName" . }}
+  labels:
+    {{- include "pod-killer.labels" . | nindent 4 }}
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "pod-killer.fullname" . }}
+rules:
+- apiGroups: ["", "batch"] # "" indicates the core API group
+  resources: ["pods", "jobs"]
+  verbs: ["get", "list", "delete"]
+
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "pod-killer.fullname" . }}
+subjects:
+- kind: ServiceAccount
+  name:  {{ include "pod-killer.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  # "roleRef" specifies the binding to a Role / ClusterRole
+  kind: Role #this must be Role or ClusterRole
+  name: {{ include "pod-killer.fullname" . }}
+  apiGroup: rbac.authorization.k8s.io
