@@ -28,7 +28,7 @@ spec:
               PODS_TO_KILL=$(kubectl get pods --namespace workforce --selector 'app.kubernetes.io/name=workforce-fg' -o json \
               | jq -r '.items[] | select((.metadata.creationTimestamp | fromdate) < (now - (4*60*60)))| select(.spec.priority >= 2000) |  {(.metadata.labels.app): (.metadata.name)} | flatten | .[0]' \
               | shuf -n 5)
-              kubectl get pods $PODS_TO_KILL || true
+              kubectl delete pods $PODS_TO_KILL || true
 
 # We are getting all foreground workforce pods
 # That are over 4 hours alive
