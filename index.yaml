@@ -63,6 +63,17 @@ entries:
     urls:
     - https://github.com/uptick/helm-charts/releases/download/k8s-job-cleaner-0.1.0/k8s-job-cleaner-0.1.0.tgz
     version: 0.1.0
+  pod-killer:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-12-22T05:01:48.307810756Z"
+    description: Cleans up pods in workforce namespace
+    digest: 3f9675605ce453d3fcce2cc9eade1d3d0fe41646cc38ff1e1336df74af181466
+    name: pod-killer
+    type: application
+    urls:
+    - https://github.com/uptick/helm-charts/releases/download/pod-killer-0.1.0/pod-killer-0.1.0.tgz
+    version: 0.1.0
   test2:
   - apiVersion: v2
     appVersion: 1.16.0
@@ -115,4 +126,4 @@ entries:
     urls:
     - https://github.com/uptick/helm-charts/releases/download/workforce-monitoring-0.1.0/workforce-monitoring-0.1.0.tgz
     version: 0.1.0
-generated: "2021-08-28T02:40:36.829190985Z"
+generated: "2022-12-22T05:01:48.307834556Z"
