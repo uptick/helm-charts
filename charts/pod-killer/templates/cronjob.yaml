@@ -22,13 +22,16 @@ spec:
             - /bin/sh
             args:
             - -c
-            # Delete jobs older than 10 hours
-            # - "kubectl delete jobs $(kubectl get jobs -o json | jq -r '.items[].metadata | select(.creationTimestamp | fromdate | (now - .)/3600 > {{ .Values.cron.ttlHours }}) | .name') || true"
             - |
-              PODS_TO_KILL=$(kubectl get pods --namespace workforce --selector 'app.kubernetes.io/name=workforce-fg' -o json \
-              | jq -r '.items[] | select((.metadata.creationTimestamp | fromdate) < (now - (4*60*60)))| select(.spec.priority >= 2000) |  {(.metadata.labels.app): (.metadata.name)} | flatten | .[0]' \
-              | shuf -n 5)
+              echo Deleting #{{.Values.podKiller.nPods}} random pods older than {{ .Values.podKiller.maxPodAgeHours }} hours
+              PODS_TO_KILL=$(kubectl get pods --selector 'app.kubernetes.io/name=workforce-fg' -o json \
+              | jq -r '.items[] | select((.metadata.creationTimestamp | fromdate) < (now - ( {{.Values.podKiller.maxPodAgeHours}} * 60 * 60 )))| select(.spec.priority >= 2000) |  {(.metadata.labels.app): (.metadata.name)} | flatten | .[0]' \
+              | shuf -n  {{ .Values.podKiller.nPods }}
               kubectl delete pods $PODS_TO_KILL || true
+
+              # echo Deleting evicted pods this doesn't work :()
+              # EVICTED_PODS=$(kubectl get pods -o json | jq  -r '.items[] | select(.status.reason == "Evicted") | .metadata.name |join(" ")')
+              # kubectl delete pods $EVICTED_PODS || true
 
 # We are getting all foreground workforce pods
 # That are over 4 hours alive

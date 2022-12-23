@@ -2,6 +2,13 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+
+podKiller:
+  # How many pods to kill
+  nPods: 5
+  maxPodAgeHours: 4
+  maxJobAgeHours: 6
+
 cron:
   # Default; every 5 minutes
   schedule: "*/5 * * * *"
