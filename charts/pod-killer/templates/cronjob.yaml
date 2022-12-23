@@ -26,13 +26,8 @@ spec:
               echo Deleting #{{.Values.podKiller.nPods}} random pods older than {{ .Values.podKiller.maxPodAgeHours }} hours
               PODS_TO_KILL=$(kubectl get pods --selector 'app.kubernetes.io/name=workforce-fg' -o json \
               | jq -r '.items[] | select((.metadata.creationTimestamp | fromdate) < (now - ( {{.Values.podKiller.maxPodAgeHours}} * 60 * 60 )))| select(.spec.priority >= 2000) |  {(.metadata.labels.app): (.metadata.name)} | flatten | .[0]' \
-              | shuf -n  {{ .Values.podKiller.nPods }}
+              | shuf -n  {{ .Values.podKiller.nPods }})
               kubectl delete pods $PODS_TO_KILL || true
-
-              # echo Deleting evicted pods this doesn't work :()
-              # EVICTED_PODS=$(kubectl get pods -o json | jq  -r '.items[] | select(.status.reason == "Evicted") | .metadata.name |join(" ")')
-              # kubectl delete pods $EVICTED_PODS || true
-
 # We are getting all foreground workforce pods
 # That are over 4 hours alive
 # That are priority over 2000 (customer pods with more than 1 pod). We don't want to kill sandbox pods since they will go down
