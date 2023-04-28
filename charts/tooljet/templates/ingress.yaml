@@ -1,0 +1,30 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "tooljet.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
+{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- else -}}
+apiVersion: extensions/v1beta1
+{{- end }}
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "tooljet.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      - backend:
+          serviceName: ssl-redirect
+          servicePort: use-annotation
+      -
+        backend:
+          serviceName: {{ .Values.ingress.serviceName }}
+          servicePort: {{ .Values.ingress.servicePort }}
+{{- end }}
