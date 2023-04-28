@@ -128,6 +128,16 @@ entries:
   tooljet:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2023-04-28T13:04:51.15381177Z"
+    description: A Helm chart for Kubernetes
+    digest: a4e72519467e032200da41ab3eaeffc7e10ae96a557435558dcccd4c96aaa5e6
+    name: tooljet
+    type: application
+    urls:
+    - https://github.com/uptick/helm-charts/releases/download/tooljet-0.2.1/tooljet-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2023-04-28T12:39:55.097638008Z"
     description: A Helm chart for Kubernetes
     digest: 420ec192400f8185a4fbea597fb3a4c286512692f7cd9b3ed6b6716335c99f10
@@ -187,4 +197,4 @@ entries:
     urls:
     - https://github.com/uptick/helm-charts/releases/download/workforce-monitoring-0.1.0/workforce-monitoring-0.1.0.tgz
     version: 0.1.0
-generated: "2023-04-28T12:39:55.097848609Z"
+generated: "2023-04-28T13:04:51.153994371Z"
