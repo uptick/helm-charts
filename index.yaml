@@ -63,6 +63,17 @@ entries:
     urls:
     - https://github.com/uptick/helm-charts/releases/download/k8s-job-cleaner-0.1.0/k8s-job-cleaner-0.1.0.tgz
     version: 0.1.0
+  nocodb:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2023-05-01T06:20:59.65152516Z"
+    description: A Helm chart for Kubernetes
+    digest: 0cc4b4b489f1cb4c9826739f41740e25a730be6fa4d060c25b0b028054021813
+    name: nocodb
+    type: application
+    urls:
+    - https://github.com/uptick/helm-charts/releases/download/nocodb-0.1.0/nocodb-0.1.0.tgz
+    version: 0.1.0
   pod-killer:
   - apiVersion: v2
     appVersion: 1.16.0
@@ -197,4 +208,4 @@ entries:
     urls:
     - https://github.com/uptick/helm-charts/releases/download/workforce-monitoring-0.1.0/workforce-monitoring-0.1.0.tgz
     version: 0.1.0
-generated: "2023-04-28T13:04:51.153994371Z"
+generated: "2023-05-01T06:20:59.651657261Z"
