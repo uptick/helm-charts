@@ -29,7 +29,20 @@ spec:
                 '.items[] | select((.metadata.creationTimestamp | fromdate) < (now - ( {{.Values.podKiller.maxPodAgeHours}} * 60 * 60 )))| select(.spec.priority >= 2000) ' \
               | jq -s -r '. | map( { (.metadata.labels.app): .metadata.name } ) | add | to_entries[] | .value' \
               | shuf -n  {{ .Values.podKiller.nPods }})
+
               kubectl delete pods $PODS_TO_KILL || true
+
+              # Deleting evicted pods
+              PODS_TO_EVICT=$(kubectl get pod --field-selector=status.phase=Failed -o json | jq -r '.items[] | select(.status.reason=="Evicted") | .metadata.name')
+              echo "Deleting Evicted pods"
+
+              kubectl delete pods $(echo $PODS_TO_EVICT) || true
+
+              # Deleting OLD jobs
+              JOBS_TO_KILL=$(kubectl get jobs -o json | jq '.items[] | select((.metadata.creationTimestamp | fromdate) < (now - (10*60*60)))' | jq '.metadata.name' -r)
+              kubectl delete jobs $(echo $JOBS_TO_KILL) || true
+
+
 # We are getting all foreground workforce pods
 # That are over 4 hours alive
 # That are priority over 2000 (customer pods with more than 1 pod). We don't want to kill sandbox pods since they will go down
