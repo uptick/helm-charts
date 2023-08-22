@@ -3,6 +3,16 @@ entries:
   bouncer:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2023-08-22T07:29:46.441077501Z"
+    description: A Helm chart for Kubernetes
+    digest: 5b1e128c791127109569c2e8fc5a3e050be0e761065b61e34c3143eb83ec2cf3
+    name: bouncer
+    type: application
+    urls:
+    - https://github.com/uptick/helm-charts/releases/download/bouncer-0.2.0/bouncer-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2021-03-16T08:17:59.452237804Z"
     description: A Helm chart for Kubernetes
     digest: 344cd7e16028d787beafa07f6a28d8928b8460167e5b4738a26044dbeef7729d
@@ -228,4 +238,4 @@ entries:
     urls:
     - https://github.com/uptick/helm-charts/releases/download/workforce-monitoring-0.1.0/workforce-monitoring-0.1.0.tgz
     version: 0.1.0
-generated: "2023-07-22T11:14:19.304128641Z"
+generated: "2023-08-22T07:29:46.441127302Z"
