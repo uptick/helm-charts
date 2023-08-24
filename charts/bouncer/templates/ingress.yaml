@@ -13,21 +13,14 @@ metadata:
   {{- end }}
 spec:
   rules:
-  - host: {{ .Values.ingress.host }}
-    http:
-      paths:
-      - backend:
-        service:
-          name: ssl-redirect
-          port:
-            number: use-annotation
-        path: /
-        pathType: Prefix
-      - backend:
-          service
-            name: {{ .Values.ingress.serviceName }}
-            port:
-              number: {{ .Values.ingress.servicePort }}
-        path: /
-        pathType: Prefix
+    - host: {{ .Values.ingress.host | quote }}
+      http:
+        paths:
+          - path: "/"
+            pathType: "Prefix"
+            backend:
+              service:
+                name: {{ .Values.ingress.serviceName | quote }}
+                port:
+                  number: {{ .Values.ingress.servicePort }}
 {{- end }}

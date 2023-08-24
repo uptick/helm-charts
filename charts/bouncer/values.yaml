@@ -41,8 +41,11 @@ service:
   port: 80
 
 ingress:
-  enabled: false
+  enabled: true
+  servicePort: 80
+  serviceName: bouncer
   annotations: {}
+  host: "test"
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
