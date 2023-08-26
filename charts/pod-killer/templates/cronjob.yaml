@@ -9,6 +9,10 @@ spec:
   failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
+      # Kill the job after 120
+      activeDeadlineSeconds: 120
+      # Clean up the job after 180 seconds
+      ttlSecondsAfterFinished: 180
       backoffLimit: 0
       template:
         spec:
