@@ -18,6 +18,14 @@ spec:
         spec:
           serviceAccount: {{ include "pod-killer.serviceAccountName" . }}
           restartPolicy: Never
+          {{- with .Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 11 }}
+          {{- end}}
+          {{- with .Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 11 }}
+          {{- end}}
           containers:
           - name: pod-killer
             image: bitnami/kubectl
