@@ -97,6 +97,16 @@ entries:
   pod-killer:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2024-02-28T22:08:45.929120609Z"
+    description: Cleans up pods in workforce namespace
+    digest: 617f0268ef7d27ba9be901dbf63b280efde6a8f1addd1ac8da0de9eb1061aa2a
+    name: pod-killer
+    type: application
+    urls:
+    - https://github.com/uptick/helm-charts/releases/download/pod-killer-0.3.1/pod-killer-0.3.1.tgz
+    version: 0.3.1
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2023-08-26T01:32:01.414241477Z"
     description: Cleans up pods in workforce namespace
     digest: 3a57f764eaed1636eda279dfe14585f7e0a399f74b742ff5527c3a6c920f6af8
@@ -268,4 +278,4 @@ entries:
     urls:
     - https://github.com/uptick/helm-charts/releases/download/workforce-monitoring-0.1.0/workforce-monitoring-0.1.0.tgz
     version: 0.1.0
-generated: "2023-08-26T01:32:01.414409581Z"
+generated: "2024-02-28T22:08:45.929205597Z"
