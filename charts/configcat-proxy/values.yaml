@@ -25,17 +25,12 @@ config:
   # API
   CONFIGCAT_HTTP_API_ENABLED: true
   CONFIGCAT_HTTP_API_CORS_ENABLED: true
-  CONFIGCAT_HTTP_API_CORS_ALLOWED_ORIGINS: '["https:\\/\\/[\\w-]+\\.onuptick\\.com"]'
-  CONFIGCAT_HTTP_API_CORS_ALLOWED_ORIGINS_REGEX_PATTERNS: https://onuptick.com
+  CONFIGCAT_HTTP_API_CORS_ALLOWED_ORIGINS_REGEX_PATTERNS: '["https:\\/\\/[\\w-]+\\.onuptick\\.com"]'
+  CONFIGCAT_HTTP_API_CORS_ALLOWED_ORIGINS_REGEX_IF_NO_MATCH: https://onuptick.com
 
-  # SSE
-  CONFIGCAT_HTTP_SSE_ENABLED: true
-  CONFIGCAT_HTTP_SSE_CORS_ENABLED: true
-  CONFIGCAT_HTTP_SSE_CORS_ALLOWED_ORIGINS_REGEX_PATTERNS: '["https:\\/\\/[\\w-]+\\.onuptick\\.com"]'
-  CONFIGCAT_HTTP_SSE_CORS_ALLOWED_ORIGINS_REGEX_IF_NO_MATCH: https://onuptick.com
-
-  # Disable unused webhook service
+  # Webhook
   CONFIGCAT_HTTP_WEBHOOK_ENABLED: false
+  CONFIGCAT_HTTP_SSE_ENABLED: false
 
   # Diagnostics
   CONFIGCAT_DIAG_ENABLED: true
