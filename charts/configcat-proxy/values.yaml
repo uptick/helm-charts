@@ -14,7 +14,7 @@ image:
 
 config:
   # SDK keys
-  CONFIGCAT_SDKS: '{"test":"configcat-sdk-1/YR3dCJFlcEeM9wHh_57afQ/P1F-QltODUaLEZE1JffVIw"}'
+  CONFIGCAT_SDKS: ''
 
   # CDN proxy
   CONFIGCAT_HTTP_CDN_PROXY_ENABLED: true
