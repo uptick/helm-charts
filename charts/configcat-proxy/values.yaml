@@ -1,0 +1,93 @@
+# Default values for configcat-proxy.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+replicaCount: 2
+
+# This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
+image:
+  repository: configcat/proxy
+
+  # This sets the pull policy for images.
+  pullPolicy: IfNotPresent
+
+config:
+  # SDK keys
+  CONFIGCAT_SDKS: ''
+
+  # CDN proxy
+  CONFIGCAT_HTTP_CDN_PROXY_ENABLED: true
+  CONFIGCAT_HTTP_CDN_PROXY_CORS_ENABLED: true
+  CONFIGCAT_HTTP_CDN_PROXY_CORS_ALLOWED_ORIGINS_REGEX_PATTERNS: '["https:\\/\\/[\\w-]+\\.onuptick\\.com"]'
+  CONFIGCAT_HTTP_CDN_PROXY_CORS_ALLOWED_ORIGINS_REGEX_IF_NO_MATCH: https://onuptick.com
+
+  # API
+  CONFIGCAT_HTTP_API_ENABLED: true
+  CONFIGCAT_HTTP_API_CORS_ENABLED: true
+  CONFIGCAT_HTTP_API_CORS_ALLOWED_ORIGINS_REGEX_PATTERNS: '["https:\\/\\/[\\w-]+\\.onuptick\\.com"]'
+  CONFIGCAT_HTTP_API_CORS_ALLOWED_ORIGINS_REGEX_IF_NO_MATCH: https://onuptick.com
+
+  # Disable unused services
+  CONFIGCAT_HTTP_WEBHOOK_ENABLED: false
+  CONFIGCAT_HTTP_SSE_ENABLED: false
+
+  # Diagnostics
+  CONFIGCAT_DIAG_ENABLED: true
+  CONFIGCAT_DIAG_STATUS_ENABLED: true
+  CONFIGCAT_DIAG_METRICS_ENABLED: true
+
+  # Miscellaneous
+  CONFIGCAT_TEST_DATA_GOVERNANCE: global
+  CONFIGCAT_TEST_LOG_LEVEL: warn
+
+ports:
+  - name: http
+    port: 8050
+    protocol: TCP
+  - name: diagnostic
+    port: 8051
+    protocol: TCP
+
+serviceAccount:
+  create: false
+
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+securityContext: {}
+
+service:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 8050
+      protocol: TCP
+    - name: diagnostic
+      port: 8051
+      protocol: TCP
+      
+ingress:
+  enabled: false
+
+resources: {}
+
+livenessProbe:
+  httpGet:
+    path: /status
+    port: diagnostic
+readinessProbe:
+  httpGet:
+    path: /status
+    port: diagnostic
+
+autoscaling:
+  enabled: false
+  # minReplicas: 1
+  # maxReplicas: 100
+  # targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
