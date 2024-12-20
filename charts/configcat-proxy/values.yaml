@@ -28,7 +28,7 @@ config:
   CONFIGCAT_HTTP_API_CORS_ALLOWED_ORIGINS_REGEX_PATTERNS: '["https:\\/\\/[\\w-]+\\.onuptick\\.com"]'
   CONFIGCAT_HTTP_API_CORS_ALLOWED_ORIGINS_REGEX_IF_NO_MATCH: https://onuptick.com
 
-  # Webhook
+  # Disable unused services
   CONFIGCAT_HTTP_WEBHOOK_ENABLED: false
   CONFIGCAT_HTTP_SSE_ENABLED: false
 
