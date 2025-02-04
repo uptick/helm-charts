@@ -12,10 +12,13 @@ image:
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
 
-config:
-  # SDK keys
-  CONFIGCAT_SDKS: ''
 
+# MUST BE SET
+CONFIGCAT_SDK_KEYS: {}
+  # test: "configcat-sdk-1/example_sdk_key"
+  # prod: "configcat-sdk-2/example_sdk_key"
+
+config:
   # CDN proxy
   CONFIGCAT_HTTP_CDN_PROXY_ENABLED: true
   CONFIGCAT_HTTP_CDN_PROXY_CORS_ENABLED: true
@@ -66,7 +69,7 @@ service:
     - name: diagnostic
       port: 8051
       protocol: TCP
-      
+
 ingress:
   enabled: false
 
