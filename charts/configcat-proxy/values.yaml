@@ -95,6 +95,7 @@ nodeSelector: {}
 tolerations: []
 affinity: {}
 
+podDisruptionBudget: {}
 # podDisruptionBudget:
 #   enabled: true
 #   minAvailable: 1
