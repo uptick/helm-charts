@@ -34,6 +34,16 @@ entries:
   configcat-proxy:
   - apiVersion: v2
     appVersion: 1.1.1
+    created: "2025-05-09T04:55:22.035200965Z"
+    description: A Helm chart for the ConfigCat proxy.
+    digest: e53324a43eb524318e134f1412234f68d4fbeadadd8d6176625d98719e1a63c0
+    name: configcat-proxy
+    type: application
+    urls:
+    - https://github.com/uptick/helm-charts/releases/download/configcat-proxy-0.4.0/configcat-proxy-0.4.0.tgz
+    version: 0.4.0
+  - apiVersion: v2
+    appVersion: 1.1.1
     created: "2025-02-05T00:21:37.585207866Z"
     description: A Helm chart for the ConfigCat proxy.
     digest: 00600766b83b5198408efe2fb7d06bab0420ad0ef39886d959b1b82c6986289f
@@ -309,4 +319,4 @@ entries:
     urls:
     - https://github.com/uptick/helm-charts/releases/download/workforce-monitoring-0.1.0/workforce-monitoring-0.1.0.tgz
     version: 0.1.0
-generated: "2025-02-05T00:21:37.585289429Z"
+generated: "2025-05-09T04:55:22.035273139Z"
