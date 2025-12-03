@@ -1,0 +1,51 @@
+podAnnotations: {}
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: false
+  name: ""
+
+replicaCount: 3
+
+image:
+  repository: permitio/pdp-v2
+  tag: "0.9.9"
+  pullPolicy: IfNotPresent
+
+ports:
+  - name: http
+    port: 7766
+    protocol: TCP
+  - name: diagnostic
+    port: 7000
+    protocol: TCP
+
+service:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 7766
+      protocol: TCP
+    - name: diagnostic
+      port: 7000
+      protocol: TCP
+
+resources:
+  requests:
+    cpu: 256m
+    memory: 512Mi
+  limits:
+    memory: 1Gi
+
+secrets:
+  PDP_API_KEY: ""
+
+imagePullSecrets: []
+securityContext: {}
+podSecurityContext: {}
+
+nodeSelector: {}
+affinity: {}
+tolerations: []
