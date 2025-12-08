@@ -135,6 +135,17 @@ entries:
     urls:
     - https://github.com/uptick/helm-charts/releases/download/nocodb-0.1.0/nocodb-0.1.0.tgz
     version: 0.1.0
+  permitio-pdp:
+  - apiVersion: v2
+    appVersion: 0.9.9
+    created: "2025-12-08T06:20:19.463105182Z"
+    description: A Helm chart for the permit.io PDP
+    digest: 0d77f19bac19fd631f1024992c93de46ad4f997d7ff15989a8f7d9aa40bad75e
+    name: permitio-pdp
+    type: application
+    urls:
+    - https://github.com/uptick/helm-charts/releases/download/permitio-pdp-0.1.0/permitio-pdp-0.1.0.tgz
+    version: 0.1.0
   pod-killer:
   - apiVersion: v2
     appVersion: 1.16.0
@@ -319,4 +330,4 @@ entries:
     urls:
     - https://github.com/uptick/helm-charts/releases/download/workforce-monitoring-0.1.0/workforce-monitoring-0.1.0.tgz
     version: 0.1.0
-generated: "2025-05-09T04:55:22.035273139Z"
+generated: "2025-12-08T06:20:19.463198867Z"
