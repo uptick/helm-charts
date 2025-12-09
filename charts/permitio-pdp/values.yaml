@@ -11,7 +11,7 @@ replicaCount: 3
 
 image:
   repository: permitio/pdp-v2
-  tag: "0.9.9"
+  tag: ""  # Set via helm_release resource in tf-modules
   pullPolicy: IfNotPresent
 
 ports:
