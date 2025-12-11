@@ -69,7 +69,7 @@ spec:
       topologySpreadConstraints:
         - labelSelector:
             matchLabels:
-              {{- include "permitio-pdp.selectorLabels" . | nindent 12 }}
+              {{- include "permitio-pdp.selectorLabels" . | nindent 14 }}
           maxSkew: 1
           topologyKey: topology.kubernetes.io/zone
           whenUnsatisfiable: ScheduleAnyway
