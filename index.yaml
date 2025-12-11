@@ -137,6 +137,15 @@ entries:
     version: 0.1.0
   permitio-pdp:
   - apiVersion: v2
+    created: "2025-12-11T23:11:38.756059164Z"
+    description: A Helm chart for the permit.io PDP
+    digest: 4f9e0a17d8a44e2e90f9fce41e9b3cd8e068299a58f8ac1e8357109542616970
+    name: permitio-pdp
+    type: application
+    urls:
+    - https://github.com/uptick/helm-charts/releases/download/permitio-pdp-0.1.1/permitio-pdp-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     appVersion: 0.9.9
     created: "2025-12-08T06:20:19.463105182Z"
     description: A Helm chart for the permit.io PDP
@@ -330,4 +339,4 @@ entries:
     urls:
     - https://github.com/uptick/helm-charts/releases/download/workforce-monitoring-0.1.0/workforce-monitoring-0.1.0.tgz
     version: 0.1.0
-generated: "2025-12-08T06:20:19.463198867Z"
+generated: "2025-12-11T23:11:38.756141358Z"
